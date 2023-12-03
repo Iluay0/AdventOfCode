@@ -2,7 +2,7 @@
 #include "src/util.h"
 
 static constexpr uint8_t day = 3;
-static constexpr uint8_t part = 1;
+static constexpr uint8_t part = 2;
 const static auto aoc2023 = std::deque<std::deque<std::function<void()>>>
 {
 	{ [&]() { aoc::y2023::day01_part1(); }, [&]() { aoc::y2023::day01_part2(); } },

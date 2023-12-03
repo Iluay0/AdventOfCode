@@ -8,9 +8,64 @@
 #include <functional>
 #include <format>
 #include <regex>
+#include <set>
 
 namespace aoc
 {
+	struct Element
+	{
+		char ch;
+		int16_t x;
+		int16_t y;
+
+		Element* topNode = nullptr;
+		Element* leftNode = nullptr;
+		Element* rightNode = nullptr;
+		Element* bottomNode = nullptr;
+
+		Element(char ch, const int16_t& x, const int16_t& y)
+			: ch(ch), x(x), y(y)
+		{
+		}
+	};
+
+	class InputNodedMap : public std::map<std::pair<int16_t, int16_t>, Element>
+	{
+	public:
+		void InsertElement(int16_t x, int16_t y, Element element)
+		{
+			auto it = insert({ {y, x}, element });
+			Element* pElement = &it.first->second;
+			if (x > 0)
+			{
+				pElement->leftNode = &find({ y, x - 1 })->second;
+				pElement->leftNode->rightNode = pElement;
+			}
+			if (y > 0)
+			{
+				pElement->topNode = &find({ y - 1, x })->second;
+				pElement->topNode->bottomNode = pElement;
+			}
+		}
+
+		void FromInput(std::deque<std::string> input)
+		{
+			clear();
+
+			int16_t y = 0;
+			for (const auto& line : input)
+			{
+				int16_t x = 0;
+				for (const auto& ch : line)
+				{
+					InsertElement(x, y, Element(ch, x, y));
+					x++;
+				}
+				y++;
+			}
+		}
+	};
+
 	inline std::string GetInputPath(uint16_t year, uint8_t day)
 	{
 		return std::format("input/{:04}/day{:02}.txt", year, day);
@@ -72,7 +127,7 @@ namespace aoc
 		while (n != 0) {
 			rem = n % 10;
 			n /= 10;
-			dec += rem * pow(2, i);
+			dec += static_cast<int>(static_cast<double>(rem) * pow(2, i));
 			++i;
 		}
 
