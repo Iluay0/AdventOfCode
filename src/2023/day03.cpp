@@ -3,9 +3,9 @@
 static constexpr uint16_t year = 2023;
 static constexpr uint8_t day = 3;
 
-const aoc::Element* GetStart(const aoc::Element* element)
+const aoc::Element* GetStart(const aoc::Element* pElement)
 {
-	auto curNode = element;
+	auto curNode = pElement;
 
 	// Go to start
 	while (curNode->leftNode != nullptr && std::isdigit(curNode->leftNode->ch))
@@ -16,62 +16,62 @@ const aoc::Element* GetStart(const aoc::Element* element)
 	return curNode;
 }
 
-std::set<const aoc::Element*> GetNearbyDigit(const aoc::Element* element)
+std::set<const aoc::Element*> GetNearbyDigit(const aoc::Element* pElement)
 {
 	std::set<const aoc::Element*> elements;
-	if (element->leftNode != nullptr)
+	if (pElement->leftNode != nullptr)
 	{
-		if (std::isdigit(element->leftNode->ch))
-			elements.insert(GetStart(element->leftNode));
+		if (std::isdigit(pElement->leftNode->ch))
+			elements.insert(GetStart(pElement->leftNode));
 
-		if (element->leftNode->topNode != nullptr)
+		if (pElement->leftNode->topNode != nullptr)
 		{
-			if (std::isdigit(element->leftNode->topNode->ch))
-				elements.insert(GetStart(element->leftNode->topNode));
+			if (std::isdigit(pElement->leftNode->topNode->ch))
+				elements.insert(GetStart(pElement->leftNode->topNode));
 		}
 
-		if (element->leftNode->bottomNode != nullptr)
+		if (pElement->leftNode->bottomNode != nullptr)
 		{
-			if (std::isdigit(element->leftNode->bottomNode->ch))
-				elements.insert(GetStart(element->leftNode->bottomNode));
-		}
-	}
-	if (element->rightNode != nullptr)
-	{
-		if (std::isdigit(element->rightNode->ch))
-			elements.insert(GetStart(element->rightNode));
-
-		if (element->rightNode->topNode != nullptr)
-		{
-			if (std::isdigit(element->rightNode->topNode->ch))
-				elements.insert(GetStart(element->rightNode->topNode));
-		}
-
-		if (element->rightNode->bottomNode != nullptr)
-		{
-			if (std::isdigit(element->rightNode->bottomNode->ch))
-				elements.insert(GetStart(element->rightNode->bottomNode));
+			if (std::isdigit(pElement->leftNode->bottomNode->ch))
+				elements.insert(GetStart(pElement->leftNode->bottomNode));
 		}
 	}
-
-	if (element->topNode != nullptr)
+	if (pElement->rightNode != nullptr)
 	{
-		if (std::isdigit(element->topNode->ch))
-			elements.insert(GetStart(element->topNode));
+		if (std::isdigit(pElement->rightNode->ch))
+			elements.insert(GetStart(pElement->rightNode));
+
+		if (pElement->rightNode->topNode != nullptr)
+		{
+			if (std::isdigit(pElement->rightNode->topNode->ch))
+				elements.insert(GetStart(pElement->rightNode->topNode));
+		}
+
+		if (pElement->rightNode->bottomNode != nullptr)
+		{
+			if (std::isdigit(pElement->rightNode->bottomNode->ch))
+				elements.insert(GetStart(pElement->rightNode->bottomNode));
+		}
 	}
 
-	if (element->bottomNode != nullptr)
+	if (pElement->topNode != nullptr)
 	{
-		if (std::isdigit(element->bottomNode->ch))
-			elements.insert(GetStart(element->bottomNode));
+		if (std::isdigit(pElement->topNode->ch))
+			elements.insert(GetStart(pElement->topNode));
+	}
+
+	if (pElement->bottomNode != nullptr)
+	{
+		if (std::isdigit(pElement->bottomNode->ch))
+			elements.insert(GetStart(pElement->bottomNode));
 	}
 
 	return elements;
 }
 
-int BuildNumber(const aoc::Element* element)
+int BuildNumber(const aoc::Element* pElement)
 {
-	auto curNode = element;
+	auto curNode = pElement;
 
 	std::string szNum = { curNode->ch };
 	while (curNode->rightNode != nullptr && std::isdigit(curNode->rightNode->ch))
