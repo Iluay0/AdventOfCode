@@ -58,20 +58,20 @@ void aoc::y2023::day01_part2()
 			__int64 foundPos = line.find(sm.str());
 			if (foundPos < positions.first)
 			{
-				if (numbers.count(sm.str()))
-					strNum[0] = numbers[sm.str()];
-				else
+				if(isdigit(sm.str()[0]))
 					strNum[0] = sm.str()[0];
+				else
+					strNum[0] = numbers[sm.str()];
 				positions.first = foundPos;
 			}
 
 			foundPos = line.rfind(sm.str());
 			if (foundPos > positions.second)
 			{
-				if (numbers.count(sm.str()))
-					strNum[1] = numbers[sm.str()];
-				else
+				if (isdigit(sm.str()[0]))
 					strNum[1] = sm.str()[0];
+				else
+					strNum[1] = numbers[sm.str()];
 				positions.second = foundPos;
 			}
 			search = sm.prefix().first + 1;
