@@ -44,6 +44,7 @@ void aoc::y2023::day01_part2()
 		searchString += std::format("({0})|", it.first);
 	}
 	searchString += "([0-9])";
+	std::regex regex(searchString);
 
 	int sum = 0;
 	for (const auto& line : input)
@@ -52,7 +53,6 @@ void aoc::y2023::day01_part2()
 		std::pair<__int64, __int64> positions = { INT64_MAX, INT64_MIN };
 
 		auto search = line.cbegin();
-		std::regex regex(searchString);
 		for (std::smatch sm; std::regex_search(search, line.cend(), sm, regex);)
 		{
 			__int64 foundPos = line.find(sm.str());
