@@ -38,40 +38,45 @@ void aoc::y2023::day01_part2()
 		{ "nine", '9' },
 	};
 
+	std::string searchString;
+	for (const auto& it : numbers)
+	{
+		searchString += std::format("({0})|", it.first);
+	}
+	searchString += "([0-9])";
+
 	int sum = 0;
 	for (const auto& line : input)
 	{
 		std::string strNum = "ZZ";
 		std::pair<__int64, __int64> positions = { INT64_MAX, INT64_MIN };
-		for (const auto& number : numbers)
-		{
-			auto search = line.cbegin();
-			std::string reg = std::format("({0})|([0-9])", number.first);
-			std::regex regex(reg);
-			for (std::smatch sm; std::regex_search(search, line.cend(), sm, regex);)
-			{
-				__int64 foundPos = line.find(sm.str());
-				if (foundPos < positions.first)
-				{
-					if(numbers.count(sm.str()))
-						strNum[0] = numbers[sm.str()];
-					else
-						strNum[0] = sm.str()[0];
-					positions.first = foundPos;
-				}
 
-				foundPos = line.rfind(sm.str());
-				if (foundPos > positions.second)
-				{
-					if (numbers.count(sm.str()))
-						strNum[1] = numbers[sm.str()];
-					else
-						strNum[1] = sm.str()[0];
-					positions.second = foundPos;
-				}
-				search = sm.suffix().first;
+		auto search = line.cbegin();
+		std::regex regex(searchString);
+		for (std::smatch sm; std::regex_search(search, line.cend(), sm, regex);)
+		{
+			__int64 foundPos = line.find(sm.str());
+			if (foundPos < positions.first)
+			{
+				if (numbers.count(sm.str()))
+					strNum[0] = numbers[sm.str()];
+				else
+					strNum[0] = sm.str()[0];
+				positions.first = foundPos;
 			}
+
+			foundPos = line.rfind(sm.str());
+			if (foundPos > positions.second)
+			{
+				if (numbers.count(sm.str()))
+					strNum[1] = numbers[sm.str()];
+				else
+					strNum[1] = sm.str()[0];
+				positions.second = foundPos;
+			}
+			search = sm.prefix().first + 1;
 		}
+
 		sum += std::stoi(strNum);
 	}
 	std::cout << sum;
