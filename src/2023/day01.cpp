@@ -19,7 +19,7 @@ void aoc::y2023::day01_part1()
 			sum += std::stoi(strNum);
 		}
 	}
-	std::cout << sum;
+	std::cout << sum << std::endl;
 }
 
 void aoc::y2023::day01_part2()
@@ -80,5 +80,5 @@ void aoc::y2023::day01_part2()
 
 		sum += std::stoi(strNum);
 	}
-	std::cout << sum;
+	std::cout << sum << std::endl;
 }
