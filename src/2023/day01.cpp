@@ -52,8 +52,8 @@ void aoc::y2023::day01_part2()
 		std::string strNum = "ZZ";
 		std::pair<__int64, __int64> positions = { INT64_MAX, INT64_MIN };
 
-		auto search = line.cbegin();
-		for (std::smatch sm; std::regex_search(search, line.cend(), sm, regex);)
+		auto it = line.cbegin();
+		for (std::smatch sm; std::regex_search(it, line.cend(), sm, regex);)
 		{
 			char chNum = sm.str()[0];
 			if (!std::isdigit(chNum))
@@ -73,9 +73,9 @@ void aoc::y2023::day01_part2()
 				positions.second = foundPos;
 			}
 
-			search = sm.suffix().first;
+			it = sm.suffix().first;
 			if(sm.str().length() != 1)
-				search--;
+				it--;
 		}
 
 		sum += std::stoi(strNum);
