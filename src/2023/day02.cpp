@@ -1,8 +1,5 @@
 #include "days.h"
 
-static constexpr uint16_t year = 2023;
-static constexpr uint8_t day = 2;
-
 void aoc::y2023::day02_part1()
 {
 	std::regex regex("(?:\\s?(\\d+) (\\w+),?;?)");

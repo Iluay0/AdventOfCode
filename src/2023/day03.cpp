@@ -1,8 +1,5 @@
 #include "days.h"
 
-static constexpr uint16_t year = 2023;
-static constexpr uint8_t day = 3;
-
 const aoc::Element* GetStart(const aoc::Element* pElement)
 {
 	auto curNode = pElement;

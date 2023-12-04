@@ -1,8 +1,5 @@
 #include "days.h"
 
-static constexpr uint16_t year = 2023;
-static constexpr uint8_t day = 1;
-
 void aoc::y2023::day01_part1()
 {
 	int sum = 0;
