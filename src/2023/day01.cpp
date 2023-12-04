@@ -74,7 +74,7 @@ void aoc::y2023::day01_part2()
 			}
 
 			search = sm.suffix().first;
-			if(!std::isdigit(chNum))
+			if(sm.str().length() != 1)
 				search--;
 		}
 
