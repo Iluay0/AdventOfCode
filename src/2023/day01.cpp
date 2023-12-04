@@ -55,26 +55,27 @@ void aoc::y2023::day01_part2()
 		auto search = line.cbegin();
 		for (std::smatch sm; std::regex_search(search, line.cend(), sm, regex);)
 		{
+			char chNum = sm.str()[0];
+			if (!std::isdigit(chNum))
+				chNum = numbers[sm.str()];
+
 			__int64 foundPos = line.find(sm.str());
 			if (foundPos < positions.first)
 			{
-				if(isdigit(sm.str()[0]))
-					strNum[0] = sm.str()[0];
-				else
-					strNum[0] = numbers[sm.str()];
+				strNum[0] = chNum;
 				positions.first = foundPos;
 			}
 
 			foundPos = line.rfind(sm.str());
 			if (foundPos > positions.second)
 			{
-				if (isdigit(sm.str()[0]))
-					strNum[1] = sm.str()[0];
-				else
-					strNum[1] = numbers[sm.str()];
+				strNum[1] = chNum;
 				positions.second = foundPos;
 			}
-			search = sm.prefix().first + 1;
+
+			search = sm.suffix().first;
+			if(!std::isdigit(chNum))
+				search--;
 		}
 
 		sum += std::stoi(strNum);
