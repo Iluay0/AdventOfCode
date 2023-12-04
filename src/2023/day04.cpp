@@ -8,29 +8,24 @@ void aoc::y2023::day04_part1()
 	for (const auto& line : aoc::GetInputData())
 	{
 		std::smatch sm;
-		if (!std::regex_search(line, sm, regex))
-		{
-			std::cout << "Regex failed for: " << line;
-			continue;
-		}
+		std::regex_search(line, sm, regex);
 
 		auto split = aoc::SplitString<std::deque<std::string>>(sm[2], "|");
-		auto winningNumbers = aoc::SplitStringRemoveEmpty<std::deque<std::string>>(split.front(), " ");
-		auto ownNumbers = aoc::SplitStringRemoveEmpty<std::deque<std::string>>(split.back(), " ");
+		auto winningNumbers = aoc::SplitStringRemoveEmpty<std::vector<std::string>>(split.front(), " ");
+		auto ownNumbers = aoc::SplitStringRemoveEmpty<std::vector<std::string>>(split.back(), " ");
 
-		int power = -1;
-		for (auto& winningNumber : winningNumbers)
-		{
-			auto it = std::find_if(ownNumbers.begin(), ownNumbers.end(),
-				[&winningNumber](const std::string& number) {
-					return number == winningNumber;
-				});
-			if (it != ownNumbers.end())
-				power++;
-		}
+		std::sort(winningNumbers.begin(), winningNumbers.end());
+		std::sort(ownNumbers.begin(), ownNumbers.end());
 
-		if (power >= 0)
-			sum += static_cast<__int64>(pow(2, power));
+		std::vector<std::string> intersections;
+		std::set_intersection(
+			winningNumbers.begin(), winningNumbers.end(),
+			ownNumbers.begin(), ownNumbers.end(),
+			std::back_inserter(intersections)
+		);
+
+		if (intersections.size() > 0)
+			sum += static_cast<__int64>(pow(2, intersections.size() - 1));
 	}
 	std::cout << sum << std::endl;
 }
@@ -44,32 +39,28 @@ void aoc::y2023::day04_part2()
 	for (const auto& line : aoc::GetInputData())
 	{
 		std::smatch sm;
-		if (!std::regex_search(line, sm, regex))
-		{
-			std::cout << "Regex failed for: " << line;
-			continue;
-		}
+		std::regex_search(line, sm, regex);
 
 		int cardNum = std::stoi(sm[1]);
 		int cardRolls = mapAdditionalCards[cardNum] + 1;
 
 		auto split = aoc::SplitString<std::deque<std::string>>(sm[2], "|");
-		auto winningNumbers = aoc::SplitStringRemoveEmpty<std::deque<std::string>>(split.front(), " ");
-		auto ownNumbers = aoc::SplitStringRemoveEmpty<std::deque<std::string>>(split.back(), " ");
+		auto winningNumbers = aoc::SplitStringRemoveEmpty<std::vector<std::string>>(split.front(), " ");
+		auto ownNumbers = aoc::SplitStringRemoveEmpty<std::vector<std::string>>(split.back(), " ");
 
-		int wins = 0;
-		for (auto& winningNumber : winningNumbers)
-		{
-			auto it = std::find_if(ownNumbers.begin(), ownNumbers.end(),
-				[&winningNumber](const std::string& number) {
-					return number == winningNumber;
-				});
-			if (it != ownNumbers.end())
-				wins++;
-		}
+		std::sort(winningNumbers.begin(), winningNumbers.end());
+		std::sort(ownNumbers.begin(), ownNumbers.end());
+
+		std::vector<std::string> intersections;
+		std::set_intersection(
+			winningNumbers.begin(), winningNumbers.end(),
+			ownNumbers.begin(), ownNumbers.end(),
+			std::back_inserter(intersections)
+		);
+
 		rolls += cardRolls;
 
-		for (int i = 1; i <= wins; i++)
+		for (int i = 1; i <= static_cast<int>(intersections.size()); i++)
 		{
 			mapAdditionalCards[cardNum + i] += cardRolls;
 		}
