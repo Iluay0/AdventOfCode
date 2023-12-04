@@ -113,6 +113,19 @@ namespace aoc
 	}
 
 	template <typename T>
+	inline T SplitStringRemoveEmpty(std::string str, std::string delimiter)
+	{
+		T strings = SplitString<T>(str, delimiter);
+
+		strings.erase(std::remove_if(strings.begin(), strings.end(),
+			[](const std::string& str) {
+				return str == "";
+			}), strings.end());
+
+		return strings;
+	}
+
+	template <typename T>
 	inline std::string Join(T list, std::string delimiter)
 	{
 		std::string str = "";
@@ -170,5 +183,18 @@ namespace aoc
 	inline void SetInputData(int16_t year, int8_t day)
 	{
 		InputData::Inst()->input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
+	}
+
+	inline std::string Trim(std::string s)
+	{
+		std::string::const_iterator it = s.begin();
+		while (it != s.end() && isspace(*it))
+			it++;
+
+		std::string::const_reverse_iterator rit = s.rbegin();
+		while (rit.base() != it && isspace(*rit))
+			rit++;
+
+		return std::string(it, rit.base());
 	}
 }
