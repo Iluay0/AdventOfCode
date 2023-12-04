@@ -66,6 +66,16 @@ namespace aoc
 		}
 	};
 
+	struct InputData
+	{
+		std::deque<std::string> input;
+		static InputData* Inst()
+		{
+			static InputData inst;
+			return &inst;
+		}
+	};
+
 	inline std::string GetInputPath(uint16_t year, uint8_t day)
 	{
 		return std::format("input/{:04}/day{:02}.txt", year, day);
@@ -150,5 +160,15 @@ namespace aoc
 	{
 		return !str.empty() && std::find_if(str.begin(),
 			str.end(), [](unsigned char c) { return !std::isdigit(c); }) == str.end();
+	}
+
+	inline std::deque<std::string> GetInputData()
+	{
+		return InputData::Inst()->input;
+	}
+
+	inline void SetInputData(int16_t year, int8_t day)
+	{
+		InputData::Inst()->input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
 	}
 }

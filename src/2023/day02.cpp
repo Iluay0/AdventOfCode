@@ -5,8 +5,6 @@ static constexpr uint8_t day = 2;
 
 void aoc::y2023::day02_part1()
 {
-	auto input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
-
 	std::regex regex("(?:\\s?(\\d+) (\\w+),?;?)");
 	std::regex regexGame("Game (\\d+)");
 
@@ -17,7 +15,7 @@ void aoc::y2023::day02_part1()
 	};
 
 	int sum = 0;
-	for (const auto& line : input)
+	for (const auto& line : aoc::GetInputData())
 	{
 		auto split = aoc::SplitString<std::deque<std::string>>(line, ": ");
 		bool isPossible = true;
@@ -47,12 +45,10 @@ void aoc::y2023::day02_part1()
 
 void aoc::y2023::day02_part2()
 {
-	auto input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
-
 	std::regex regex("(?:\\s?(\\d+) (\\w+),?;?)");
 
 	int sum = 0;
-	for (const auto& line : input)
+	for (const auto& line : aoc::GetInputData())
 	{
 		std::map<std::string, int32_t> minCubes{
 			{ "red", 0 },

@@ -85,10 +85,8 @@ int BuildNumber(const aoc::Element* pElement)
 
 void aoc::y2023::day03_part1()
 {
-	auto input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
-
 	InputNodedMap inputNodedMap;
-	inputNodedMap.FromInput(input);
+	inputNodedMap.FromInput(aoc::GetInputData());
 
 	int32_t sum = 0;
 	for (const auto& [pos, element] : inputNodedMap)
@@ -106,10 +104,8 @@ void aoc::y2023::day03_part1()
 
 void aoc::y2023::day03_part2()
 {
-	auto input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
-
 	InputNodedMap inputNodedMap;
-	inputNodedMap.FromInput(input);
+	inputNodedMap.FromInput(aoc::GetInputData());
 
 	int32_t sum = 0;
 	for (const auto& [pos, element] : inputNodedMap)

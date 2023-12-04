@@ -1,6 +1,7 @@
 #include "src/2023/days.h"
 #include "src/util.h"
 
+static constexpr uint16_t year = 2023;
 static constexpr uint8_t day = 1;
 static constexpr uint8_t part = 2;
 const static auto aoc2023 = std::deque<std::deque<std::function<void()>>>
@@ -13,9 +14,11 @@ const static auto aoc2023 = std::deque<std::deque<std::function<void()>>>
 int main()
 {
 	std::cout << "######################" << std::endl;
-	std::cout << "### Advent of Code ###" << std::endl;
+	std::cout << std::format("###### AoC {0} ######", year) << std::endl;
 	std::cout << std::format("### Day {0} - Part {1} ###", day, part) << std::endl;
 	std::cout << "######################" << std::endl << std::endl;
+
+	aoc::SetInputData(year, day);
 
 	auto start = std::chrono::high_resolution_clock::now();
 

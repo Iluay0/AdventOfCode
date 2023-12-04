@@ -5,10 +5,8 @@ static constexpr uint8_t day = 1;
 
 void aoc::y2023::day01_part1()
 {
-	auto input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
-
 	int sum = 0;
-	for (const auto& line : input)
+	for (const auto& line : aoc::GetInputData())
 	{
 		std::regex regex("([0-9])");
 		std::smatch smFirst;
@@ -24,8 +22,7 @@ void aoc::y2023::day01_part1()
 
 void aoc::y2023::day01_part2()
 {
-	auto input = aoc::ParseInputFile<std::deque<std::string>>(aoc::GetInputPath(year, day));
-
+	std::map<std::string, char> numbersReverse;
 	std::map<std::string, char> numbers {
 		{ "one", '1' },
 		{ "two", '2' },
@@ -38,47 +35,41 @@ void aoc::y2023::day01_part2()
 		{ "nine", '9' },
 	};
 
-	std::string searchString;
-	for (const auto& it : numbers)
+	std::string searchString = "";
+	std::string searchStringRev = "";
+	for (const auto& [key, value] : numbers)
 	{
-		searchString += std::format("({0})|", it.first);
+		std::string keyRev{ key.rbegin(), key.rend() };
+		numbersReverse.insert({ keyRev, value });
+
+		searchString += std::format("({0})|", key);
+		searchStringRev += std::format("({0})|", keyRev);
 	}
 	searchString += "([0-9])";
+	searchStringRev += "([0-9])";
+
 	std::regex regex(searchString);
+	std::regex regexRev(searchStringRev);
 
 	int sum = 0;
-	for (const auto& line : input)
+	for (const auto& line : aoc::GetInputData())
 	{
-		std::string strNum = "ZZ";
-		std::pair<__int64, __int64> positions = { INT64_MAX, INT64_MIN };
+		std::string reverseLine{ line.rbegin(), line.rend() };
 
-		auto it = line.cbegin();
-		for (std::smatch sm; std::regex_search(it, line.cend(), sm, regex);)
+		std::smatch smFirst;
+		std::smatch smLast;
+		if (std::regex_search(line, smFirst, regex) && std::regex_search(reverseLine, smLast, regexRev))
 		{
-			char chNum = sm.str()[0];
-			if (!std::isdigit(chNum))
-				chNum = numbers[sm.str()];
+			char chFirst = smFirst.str()[0];
+			if (!std::isdigit(chFirst))
+				chFirst = numbers[smFirst.str()];
 
-			__int64 foundPos = line.find(sm.str());
-			if (foundPos < positions.first)
-			{
-				strNum[0] = chNum;
-				positions.first = foundPos;
-			}
+			char chSecond = smLast.str()[0];
+			if (!std::isdigit(chSecond))
+				chSecond = numbersReverse[smLast.str()];
 
-			foundPos = line.rfind(sm.str());
-			if (foundPos > positions.second)
-			{
-				strNum[1] = chNum;
-				positions.second = foundPos;
-			}
-
-			it = sm.suffix().first;
-			if(sm.str().length() != 1)
-				it--;
+			sum += std::stoi(std::string{ chFirst, chSecond });
 		}
-
-		sum += std::stoi(strNum);
 	}
 	std::cout << sum << std::endl;
 }
