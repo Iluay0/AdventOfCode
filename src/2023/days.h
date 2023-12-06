@@ -16,5 +16,8 @@ namespace aoc
 
 		void day04_part1();
 		void day04_part2();
+
+		void day05_part1();
+		void day05_part2();
 	}
 }
