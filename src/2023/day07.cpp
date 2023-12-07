@@ -12,6 +12,14 @@ struct Hand
 	__int64 bid = 0ll;
 	__int64 score = 0;
 
+	void Initialize()
+	{
+		InitCardsVec();
+		if (part == 2)
+			HandleJokers();
+		score = GetScore();
+	}
+
 	void AddCard(char card)
 	{
 		if (cards.count(card))
@@ -38,21 +46,16 @@ struct Hand
 		if (!cards.count('J'))
 			return;
 
-		char chBest = '0';
 		for (const auto& it : cardsVec)
 		{
-			if (it.first != 'J')
-			{
-				chBest = it.first;
-				break;
-			}
-		}
-		if (chBest != '0')
-		{
-			cards[chBest] += cards['J'];
+			if (it.first == 'J')
+				continue;
+
+			cards[it.first] += cards['J'];
 			cards['J'] = 0;
 			cardsVec.clear();
 			InitCardsVec();
+			return;
 		}
 	}
 
@@ -80,6 +83,7 @@ struct Hand
 				if (twoOfAKind)
 					return 3;
 				twoOfAKind = true;
+				continue;
 			}
 		}
 		if (threeOfAKind)
@@ -109,22 +113,9 @@ struct Hand
 	}
 };
 
-struct CamelCards
-{
-	std::vector<Hand> hands;
-
-	void SortHands()
-	{
-		std::sort(hands.begin(), hands.end(),
-		[&](Hand& a, Hand& b) {
-			return a < b;
-		});
-	}
-};
-
 void aoc::y2023::day07_part1()
 {
-	CamelCards camelCards;
+	std::vector<Hand> hands;
 	for (const auto& line : aoc::GetInputData())
 	{
 		Hand hand;
@@ -134,15 +125,18 @@ void aoc::y2023::day07_part1()
 		{
 			hand.AddCard(ch);
 		}
-		hand.InitCardsVec();
-		hand.score = hand.GetScore();
-		camelCards.hands.push_back(hand);
+		hand.Initialize();
+		hands.push_back(hand);
 	}
-	camelCards.SortHands();
+
+	std::sort(hands.begin(), hands.end(),
+		[&](Hand& a, Hand& b) {
+			return a < b;
+		});
 
 	__int64 sum = 0;
 	__int64 i = 1;
-	for (const auto& hand : camelCards.hands)
+	for (const auto& hand : hands)
 	{
 		sum += hand.bid * i;
 		i++;
@@ -154,7 +148,7 @@ void aoc::y2023::day07_part2()
 {
 	part = 2;
 
-	CamelCards camelCards;
+	std::vector<Hand> hands;
 	for (const auto& line : aoc::GetInputData())
 	{
 		Hand hand;
@@ -164,16 +158,18 @@ void aoc::y2023::day07_part2()
 		{
 			hand.AddCard(ch);
 		}
-		hand.InitCardsVec();
-		hand.HandleJokers();
-		hand.score = hand.GetScore();
-		camelCards.hands.push_back(hand);
+		hand.Initialize();
+		hands.push_back(hand);
 	}
-	camelCards.SortHands();
+
+	std::sort(hands.begin(), hands.end(),
+		[&](Hand& a, Hand& b) {
+			return a < b;
+		});
 
 	__int64 sum = 0;
 	__int64 i = 1;
-	for (const auto& hand : camelCards.hands)
+	for (const auto& hand : hands)
 	{
 		sum += hand.bid * i;
 		i++;
