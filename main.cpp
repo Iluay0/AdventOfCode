@@ -2,7 +2,7 @@
 #include "src/util.h"
 
 static constexpr uint16_t year = 2023;
-static constexpr uint8_t day = 7;
+static constexpr uint8_t day = 8;
 static constexpr uint8_t part = 2;
 const static auto aocCalendar = std::map<uint16_t, std::deque<std::deque<std::function<void()>>>>
 {
@@ -16,6 +16,7 @@ const static auto aocCalendar = std::map<uint16_t, std::deque<std::deque<std::fu
 			{ [&]() { aoc::y2023::day05_part1(); }, [&]() { aoc::y2023::day05_part2(); } },
 			{ [&]() { aoc::y2023::day06_part1(); }, [&]() { aoc::y2023::day06_part2(); } },
 			{ [&]() { aoc::y2023::day07_part1(); }, [&]() { aoc::y2023::day07_part2(); } },
+			{ [&]() { aoc::y2023::day08_part1(); }, [&]() { aoc::y2023::day08_part2(); } },
 		}
 	}
 };

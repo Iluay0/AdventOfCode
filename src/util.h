@@ -9,6 +9,7 @@
 #include <format>
 #include <regex>
 #include <set>
+#include <future>
 
 namespace aoc
 {
@@ -196,5 +197,32 @@ namespace aoc
 			rit++;
 
 		return std::string(it, rit.base());
+	}
+
+	inline __int64 gcd(__int64 a, __int64 b)
+	{
+		return b == 0ll ? a : gcd(b, a % b);
+	}
+
+	inline __int64 gcd(std::deque<__int64> numbers)
+	{
+		__int64 result = numbers.front();
+		for (const auto& it : numbers)
+			result = gcd(result, it);
+		return result;
+	}
+
+	inline __int64 lcm(__int64 a, __int64 b)
+	{
+		return abs(a * b) / gcd(a, b);
+	}
+
+	inline __int64 lcm(std::deque<__int64> numbers)
+	{
+		if (numbers.size() == 2)
+			return lcm(numbers.front(), numbers.back());
+		__int64 front = numbers.front();
+		numbers.pop_front();
+		return lcm(front, lcm(numbers));
 	}
 }

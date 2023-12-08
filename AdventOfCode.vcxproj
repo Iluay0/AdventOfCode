@@ -136,6 +136,7 @@
     <ClCompile Include="src\2023\day05.cpp" />
     <ClCompile Include="src\2023\day06.cpp" />
     <ClCompile Include="src\2023\day07.cpp" />
+    <ClCompile Include="src\2023\day08.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\2023\days.h" />

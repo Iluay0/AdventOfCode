@@ -45,6 +45,9 @@
     <ClCompile Include="src\2023\day07.cpp">
       <Filter>Source Files\src\2023</Filter>
     </ClCompile>
+    <ClCompile Include="src\2023\day08.cpp">
+      <Filter>Source Files\src\2023</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\util.h">
