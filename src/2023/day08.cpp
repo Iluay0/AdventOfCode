@@ -111,9 +111,12 @@ void aoc::y2023::day08_part2()
 	}
 
 	__int64 gcd = aoc::gcd(paths);
-	for (auto& it : paths)
+	if (gcd % directions.size() == 0)
 	{
-		it /= (gcd / directions.size());
+		for (auto& it : paths)
+		{
+			it /= (gcd / directions.size());
+		}
 	}
 
 	std::cout << aoc::lcm(paths) << std::endl;
